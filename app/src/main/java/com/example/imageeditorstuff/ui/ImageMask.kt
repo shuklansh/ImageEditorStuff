@@ -27,6 +27,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -132,22 +134,34 @@ fun ImageMask(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .fillMaxSize()
                     )
-                    Box(modifier = Modifier.padding(16.dp).pointerInput(Unit) {
-                        detectDragGestures { change, dragAmount ->
-                            change.consume()
-                            position = Offset(
-                                x = position.x + dragAmount.x,
-                                y = position.y + dragAmount.y
-                            )
-                        }
-                    }) {
+
                         TextField(
+                            modifier = Modifier
+                                .offset(
+                                    x = position.x.toInt().dp,
+                                    y = position.y.toInt().dp
+                                )
+                                .pointerInput(Unit) {
+                                    detectDragGestures { change, dragAmount ->
+                                        change.consume()
+                                        position = Offset(
+                                            x = position.x + dragAmount.x,
+                                            y = position.y + dragAmount.y
+                                        )
+                                    }
+                                },
                             value = inputText.value,
+                            colors = TextFieldDefaults.colors().copy(
+                                unfocusedContainerColor = Color.Transparent,
+                                focusedContainerColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent
+                            ),
                             onValueChange = {
                                 inputText.value = it
                             }
                         )
-                    }
                 } ?: Text("Tap the button to pick an image")
             }
 
